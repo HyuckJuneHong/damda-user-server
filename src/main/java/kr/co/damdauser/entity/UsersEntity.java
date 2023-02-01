@@ -23,7 +23,7 @@ public class UsersEntity {
     @Column(name = "identity", unique = true, nullable = false, length = 50)
     private String identity;
 
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
     @Column(name = "name", nullable = false, length = 25)

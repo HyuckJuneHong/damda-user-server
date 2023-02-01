@@ -18,4 +18,5 @@
           instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
     
   <li>Status API 구현</li>
+  <li>Spring Security을 활용해 Password 정보 인코딩 후 디비 저장</li>
 </ol>
