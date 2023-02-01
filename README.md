@@ -9,11 +9,13 @@
 <h3>23/02/01</h3>
   <li>User Server 생성</li>
   <li>Eureka Server에 등록</li>
-  <li>자동으로 랜덤 포트 부여, Load Balancer 적용</li>
+  <li>자동으로 랜덤 포트 부여 및 Load Balancer 적용</li>
 
       server:
         port: 0
       eureka:
         instance:
           instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    
+  <li>Status API 구현</li>
 </ol>
