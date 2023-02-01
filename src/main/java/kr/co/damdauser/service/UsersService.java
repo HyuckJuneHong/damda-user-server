@@ -4,6 +4,7 @@ import kr.co.damdauser.dto.RequestDto;
 import kr.co.damdauser.entity.UsersEntity;
 import kr.co.damdauser.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,11 +12,12 @@ import org.springframework.stereotype.Service;
 public class UsersService {
 
     private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void signUp(RequestDto.CREATE create){
         checkPassword(create.getPassword(), create.getCheckPassword());
         isIdentity(create.getIdentity());
-        final UsersEntity newUser = UsersEntity.of(create);
+        final UsersEntity newUser = UsersEntity.of(create, passwordEncoder);
 
         usersRepository.save(newUser);
     }

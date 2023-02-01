@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -43,10 +44,10 @@ public class UsersEntity {
         this.password = password;
     }
 
-    public static UsersEntity of(RequestDto.CREATE create){
+    public static UsersEntity of(RequestDto.CREATE create, PasswordEncoder passwordEncoder){
         return UsersEntity.builder()
                 .identity(create.getIdentity())
-                .password(create.getPassword())
+                .password(passwordEncoder.encode(create.getPassword()))
                 .name(create.getName())
                 .email(create.getEmail())
                 .build();
