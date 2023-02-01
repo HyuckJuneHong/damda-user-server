@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/damda-user")
+@RequestMapping("/")
 @Slf4j
 public class StatusController {
 
@@ -27,13 +27,7 @@ public class StatusController {
         return message;
     }
 
-    @GetMapping("/message")
-    public String message(@RequestParam("user-request") String header){
-        log.info(header);
-        return "Hello World in User Service.";
-    }
-
-    @GetMapping("/check")
+    @GetMapping("/port_check")
     public String check(HttpServletRequest request){
         log.info("Server Port={}", request.getServerPort());
         return String.format("Hi, there. This is a message from User Service on Port %s."
