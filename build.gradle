@@ -30,6 +30,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    //DB
+    runtimeOnly 'mysql:mysql-connector-java'
+
     //eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
