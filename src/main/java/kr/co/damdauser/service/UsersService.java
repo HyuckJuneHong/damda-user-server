@@ -47,7 +47,7 @@ public class UsersService {
      * user detail info all list read  service
      * @return : user detail info list read
      */
-    public List<ResponseDto.READ_DETAIL> getUserInfoAll(){
+    public List<ResponseDto.READ_DETAIL> getAllUserInfo(){
         final List<UsersEntity> usersEntities = usersRepository.findAll();
         final List<ResponseDto.READ_DETAIL> readDetails = UsersEntity.of(usersEntities);
 

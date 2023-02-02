@@ -30,7 +30,7 @@ public class UsersController {
     }
 
     @GetMapping("/all")
-    public List<ResponseDto.READ_DETAIL> getUserInfoAll(){
-        return usersService.getUserInfoAll();
+    public List<ResponseDto.READ_DETAIL> getAllUserInfo(){
+        return usersService.getAllUserInfo();
     }
 }
