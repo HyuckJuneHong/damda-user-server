@@ -25,11 +25,11 @@ public class ResponseDto {
     public static class READ_ORDER{
         private String productCode;
 
-        private Integer amount;
+        private int amount;
 
-        private Integer price;
+        private int price;
 
-        private Integer totalPrice;
+        private int totalPrice;
 
         private LocalDateTime createdAt;
 
