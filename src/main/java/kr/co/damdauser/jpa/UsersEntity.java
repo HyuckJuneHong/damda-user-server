@@ -1,4 +1,4 @@
-package kr.co.damdauser.entity;
+package kr.co.damdauser.jpa;
 
 import kr.co.damdauser.dto.RequestDto;
 import kr.co.damdauser.dto.ResponseDto;

@@ -1,6 +1,5 @@
-package kr.co.damdauser.repository;
+package kr.co.damdauser.jpa;
 
-import kr.co.damdauser.entity.UsersEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

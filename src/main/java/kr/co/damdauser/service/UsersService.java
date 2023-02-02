@@ -2,8 +2,8 @@ package kr.co.damdauser.service;
 
 import kr.co.damdauser.dto.RequestDto;
 import kr.co.damdauser.dto.ResponseDto;
-import kr.co.damdauser.entity.UsersEntity;
-import kr.co.damdauser.repository.UsersRepository;
+import kr.co.damdauser.jpa.UsersEntity;
+import kr.co.damdauser.jpa.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
