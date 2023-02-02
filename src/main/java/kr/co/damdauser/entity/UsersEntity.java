@@ -1,6 +1,7 @@
 package kr.co.damdauser.entity;
 
 import kr.co.damdauser.dto.RequestDto;
+import kr.co.damdauser.dto.ResponseDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_user")
@@ -44,12 +47,32 @@ public class UsersEntity {
         this.password = password;
     }
 
-    public static UsersEntity of(RequestDto.CREATE create, PasswordEncoder passwordEncoder){
+    public static UsersEntity of(RequestDto.CREATE create,
+                                 PasswordEncoder passwordEncoder){
         return UsersEntity.builder()
                 .identity(create.getIdentity())
                 .password(passwordEncoder.encode(create.getPassword()))
                 .name(create.getName())
                 .email(create.getEmail())
                 .build();
+    }
+
+    public static ResponseDto.READ_DETAIL of(UsersEntity usersEntity,
+                                             List<ResponseDto.READ_ORDER> readOrders){
+        return ResponseDto.READ_DETAIL.builder()
+                .name(usersEntity.name)
+                .email(usersEntity.email)
+                .readOrders(readOrders)
+                .build();
+    }
+
+    public static List<ResponseDto.READ_DETAIL> of(List<UsersEntity> usersEntities){
+        List<ResponseDto.READ_DETAIL> readDetails = new ArrayList<>();
+        for(UsersEntity usersEntity : usersEntities){
+            List<ResponseDto.READ_ORDER> readOrders = new ArrayList<>();
+            readDetails.add(UsersEntity.of(usersEntity, readOrders));
+        }
+
+        return readDetails;
     }
 }
