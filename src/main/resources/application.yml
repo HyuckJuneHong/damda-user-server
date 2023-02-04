@@ -2,7 +2,7 @@ greeting:
   message: Welcome to the Simple Damda.
 
 jwt:
-  secretKey: local-jwt-key
+  secret: local-jwt-key
 
 server:
   port: 0

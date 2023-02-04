@@ -37,7 +37,7 @@ public class UsersEntity {
     @Email
     private String email;
 
-    @Column(name = "user_role", unique = true, length = 25, nullable = false)
+    @Column(name = "user_role", length = 25, nullable = false)
     private UserRole userRole;
 
     @Builder
