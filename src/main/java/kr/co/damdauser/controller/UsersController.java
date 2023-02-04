@@ -1,8 +1,10 @@
 package kr.co.damdauser.controller;
 
+import io.swagger.annotations.ApiOperation;
 import kr.co.damdauser.dto.RequestDto;
 import kr.co.damdauser.dto.ResponseDto;
 import kr.co.damdauser.service.UsersService;
+import kr.co.error.model.ResponseFormat;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -18,19 +20,26 @@ public class UsersController {
 
     private final UsersService usersService;
 
+    @ApiOperation("일반회원 회원가입")
     @PostMapping
-    public String createUser(@RequestBody @Valid RequestDto.CREATE create){
+    public ResponseFormat<String> createUser(@RequestBody @Valid RequestDto.CREATE create){
         usersService.signUp(create);
-        return create.getName() + "님 회원가입 완료";
+        return ResponseFormat.ok(create.getName() + "님 회원가입 완료");
+    }
+
+    @ApiOperation("로그인")
+    @PostMapping("/login")
+    public ResponseFormat<ResponseDto.TOKEN> login(@RequestBody @Valid RequestDto.LOGIN login){
+        return ResponseFormat.ok(usersService.login(login));
     }
 
     @GetMapping
-    public ResponseDto.READ_DETAIL getUserInfoByIdentity(@RequestParam("identity") String identity){
-        return usersService.getUserInfoByIdentity(identity);
+    public ResponseFormat<ResponseDto.READ_DETAIL> getUserInfoByIdentity(@RequestParam("identity") String identity){
+        return ResponseFormat.ok(usersService.getUserInfoByIdentity(identity));
     }
 
     @GetMapping("/all")
-    public List<ResponseDto.READ_DETAIL> getAllUserInfo(){
-        return usersService.getAllUserInfo();
+    public ResponseFormat<List<ResponseDto.READ_DETAIL>> getAllUserInfo(){
+        return ResponseFormat.ok(usersService.getAllUserInfo());
     }
 }

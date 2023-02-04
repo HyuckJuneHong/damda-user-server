@@ -2,6 +2,7 @@ package kr.co.damdauser.jpa;
 
 import kr.co.damdauser.dto.RequestDto;
 import kr.co.damdauser.dto.ResponseDto;
+import kr.co.enums.UserRole;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,19 +33,24 @@ public class UsersEntity {
     @Column(name = "name", nullable = false, length = 25)
     private String name;
 
-    @Column(name = "email", unique = true, length = 50)
+    @Column(name = "email", unique = true, length = 50, nullable = false)
     @Email
     private String email;
+
+    @Column(name = "user_role", unique = true, length = 25, nullable = false)
+    private UserRole userRole;
 
     @Builder
     public UsersEntity(String identity,
                        String password,
                        String name,
-                       String email) {
+                       String email,
+                       UserRole userRole) {
         this.identity = identity;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.userRole = userRole;
     }
 
     public static UsersEntity of(RequestDto.CREATE create,
@@ -54,6 +60,7 @@ public class UsersEntity {
                 .password(passwordEncoder.encode(create.getPassword()))
                 .name(create.getName())
                 .email(create.getEmail())
+                .userRole(UserRole.ROLE_USER)
                 .build();
     }
 
