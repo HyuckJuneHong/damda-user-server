@@ -50,6 +50,12 @@ dependencies {
     //DB
     runtimeOnly 'mysql:mysql-connector-java'
 
+    //config
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
+
+    //acutator
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
     //Eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
