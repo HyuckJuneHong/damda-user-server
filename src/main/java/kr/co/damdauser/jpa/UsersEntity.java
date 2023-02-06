@@ -1,7 +1,8 @@
 package kr.co.damdauser.jpa;
 
-import kr.co.damdauser.dto.RequestDto;
-import kr.co.damdauser.dto.ResponseDto;
+import kr.co.dto.RequestUserDto;
+import kr.co.dto.ResponseOrderDto;
+import kr.co.dto.ResponseUserDto;
 import kr.co.enums.UserRole;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -53,7 +54,7 @@ public class UsersEntity {
         this.userRole = userRole;
     }
 
-    public static UsersEntity of(RequestDto.CREATE create,
+    public static UsersEntity of(RequestUserDto.CREATE_USER create,
                                  PasswordEncoder passwordEncoder){
         return UsersEntity.builder()
                 .identity(create.getIdentity())
@@ -64,19 +65,19 @@ public class UsersEntity {
                 .build();
     }
 
-    public static ResponseDto.READ_DETAIL of(UsersEntity usersEntity,
-                                             List<ResponseDto.READ_ORDER> readOrders){
-        return ResponseDto.READ_DETAIL.builder()
+    public static ResponseUserDto.READ_USER_DETAIL of(UsersEntity usersEntity,
+                                                 List<ResponseOrderDto.READ_ORDER_INFO> readOrders){
+        return ResponseUserDto.READ_USER_DETAIL.builder()
                 .name(usersEntity.name)
                 .email(usersEntity.email)
                 .readOrders(readOrders)
                 .build();
     }
 
-    public static List<ResponseDto.READ_DETAIL> of(List<UsersEntity> usersEntities){
-        List<ResponseDto.READ_DETAIL> readDetails = new ArrayList<>();
+    public static List<ResponseUserDto.READ_USER_DETAIL> of(List<UsersEntity> usersEntities){
+        List<ResponseUserDto.READ_USER_DETAIL> readDetails = new ArrayList<>();
         for(UsersEntity usersEntity : usersEntities){
-            List<ResponseDto.READ_ORDER> readOrders = new ArrayList<>();
+            List<ResponseOrderDto.READ_ORDER_INFO> readOrders = new ArrayList<>();
             readDetails.add(UsersEntity.of(usersEntity, readOrders));
         }
 

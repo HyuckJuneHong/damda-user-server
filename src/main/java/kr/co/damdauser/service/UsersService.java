@@ -1,7 +1,8 @@
 package kr.co.damdauser.service;
 
-import kr.co.damdauser.dto.RequestDto;
-import kr.co.damdauser.dto.ResponseDto;
+import kr.co.dto.RequestUserDto;
+import kr.co.dto.ResponseOrderDto;
+import kr.co.dto.ResponseUserDto;
 import kr.co.damdauser.jpa.UsersEntity;
 import kr.co.damdauser.jpa.UsersRepository;
 import kr.co.enums.ErrorCode;
@@ -30,7 +31,7 @@ public class UsersService {
      * @param create : user create info dto
      */
     @Transactional
-    public void signUp(RequestDto.CREATE create){
+    public void signUp(RequestUserDto.CREATE_USER create){
         checkPassword(create.getPassword(), create.getCheckPassword());
         isIdentity(create.getIdentity());
         final UsersEntity newUser = UsersEntity.of(create, passwordEncoder);
@@ -44,13 +45,13 @@ public class UsersService {
      * @return : 회원의 AccessToken과 RefreshToken을 담은 객체
      * @Exception BadRequestException : 아이디 혹은 비밀번호가 틀렸을 경우 발생하는 예외.
      */
-    public ResponseDto.TOKEN login(RequestDto.LOGIN login) {
+    public ResponseUserDto.TOKEN login(RequestUserDto.LOGIN login) {
         UsersEntity usersEntity = findUserByIdentity(login.getIdentity());
 
         checkEncodePassword(login.getPassword(), usersEntity.getPassword());
         String[] tokens = generateToken(usersEntity);
 
-        return ResponseDto.TOKEN.builder()
+        return ResponseUserDto.TOKEN.builder()
                 .accessToken(tokens[0])
                 .refreshToken(tokens[1])
                 .build();
@@ -61,10 +62,10 @@ public class UsersService {
      * @param identity : user identity
      * @return user detail info
      */
-    public ResponseDto.READ_DETAIL getUserInfoByIdentity(String identity){
+    public ResponseUserDto.READ_USER_DETAIL getUserInfoByIdentity(String identity){
         final UsersEntity usersEntity = findUserByIdentity(identity);
-        final List<ResponseDto.READ_ORDER> readOrders = new ArrayList<>();
-        final ResponseDto.READ_DETAIL readDetail = UsersEntity.of(usersEntity, readOrders);
+        final List<ResponseOrderDto.READ_ORDER_INFO> readOrders = new ArrayList<>();
+        final ResponseUserDto.READ_USER_DETAIL readDetail = UsersEntity.of(usersEntity, readOrders);
 
         return readDetail;
     }
@@ -73,9 +74,9 @@ public class UsersService {
      * user detail info all list read  service
      * @return : user detail info list read
      */
-    public List<ResponseDto.READ_DETAIL> getAllUserInfo(){
+    public List<ResponseUserDto.READ_USER_DETAIL> getAllUserInfo(){
         final List<UsersEntity> usersEntities = usersRepository.findAll();
-        final List<ResponseDto.READ_DETAIL> readDetails = UsersEntity.of(usersEntities);
+        final List<ResponseUserDto.READ_USER_DETAIL> readDetails = UsersEntity.of(usersEntities);
 
         return readDetails;
     }
