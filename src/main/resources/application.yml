@@ -5,6 +5,10 @@ management:
         include: refresh, health, beans, info, busrefresh
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   profiles:
     active: local
 
