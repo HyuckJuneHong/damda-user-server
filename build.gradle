@@ -57,6 +57,9 @@ dependencies {
     //acutator
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
 
+    //amqp
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bus-amqp'
+
     //Eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
