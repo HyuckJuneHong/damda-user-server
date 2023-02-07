@@ -1,10 +1,11 @@
 package kr.co.damdauser.service;
 
-import kr.co.dto.RequestUserDto;
-import kr.co.dto.ResponseOrderDto;
-import kr.co.dto.ResponseUserDto;
+import kr.co.damdauser.dto.RequestDto;
+import kr.co.damdauser.dto.ResponseDto;
+import kr.co.damdauser.dto.client.ResponseClientDto;
 import kr.co.damdauser.jpa.UsersEntity;
 import kr.co.damdauser.jpa.UsersRepository;
+import kr.co.damdauser.service.client.OrderServiceClient;
 import kr.co.enums.ErrorCode;
 import kr.co.error.exception.BadRequestException;
 import kr.co.error.exception.BusinessLogicException;
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,13 +25,14 @@ public class UsersService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final OrderServiceClient orderServiceClient;
 
     /**
      * user create service
      * @param create : user create info dto
      */
     @Transactional
-    public void signUp(RequestUserDto.CREATE_USER create){
+    public void signUp(RequestDto.CREATE_USER create){
         checkPassword(create.getPassword(), create.getCheckPassword());
         isIdentity(create.getIdentity());
         final UsersEntity newUser = UsersEntity.of(create, passwordEncoder);
@@ -45,13 +46,13 @@ public class UsersService {
      * @return : 회원의 AccessToken과 RefreshToken을 담은 객체
      * @Exception BadRequestException : 아이디 혹은 비밀번호가 틀렸을 경우 발생하는 예외.
      */
-    public ResponseUserDto.TOKEN login(RequestUserDto.LOGIN login) {
+    public ResponseDto.TOKEN login(RequestDto.LOGIN login) {
         UsersEntity usersEntity = findUserByIdentity(login.getIdentity());
 
         checkEncodePassword(login.getPassword(), usersEntity.getPassword());
         String[] tokens = generateToken(usersEntity);
 
-        return ResponseUserDto.TOKEN.builder()
+        return ResponseDto.TOKEN.builder()
                 .accessToken(tokens[0])
                 .refreshToken(tokens[1])
                 .build();
@@ -62,23 +63,23 @@ public class UsersService {
      * @param identity : user identity
      * @return user detail info
      */
-    public ResponseUserDto.READ_USER_DETAIL getUserInfoByIdentity(String identity){
+    public ResponseDto.READ_USER_INFO getUserInfoByIdentity(String identity){
         final UsersEntity usersEntity = findUserByIdentity(identity);
-        final List<ResponseOrderDto.READ_ORDER_INFO> readOrders = new ArrayList<>();
-        final ResponseUserDto.READ_USER_DETAIL readDetail = UsersEntity.of(usersEntity, readOrders);
+        final List<ResponseClientDto.READ_ORDER_INFO> readOrderInfos = orderServiceClient.findOrderInfosByIdentity(identity);
+        final ResponseDto.READ_USER_INFO readUserInfo = UsersEntity.of(usersEntity, readOrderInfos);
 
-        return readDetail;
+        return readUserInfo;
     }
 
     /**
      * user detail info all list read  service
      * @return : user detail info list read
      */
-    public List<ResponseUserDto.READ_USER_DETAIL> getAllUserInfo(){
+    public List<ResponseDto.READ_USER_INFO> getAllUserInfos(){
         final List<UsersEntity> usersEntities = usersRepository.findAll();
-        final List<ResponseUserDto.READ_USER_DETAIL> readDetails = UsersEntity.of(usersEntities);
+        final List<ResponseDto.READ_USER_INFO> readUserInfos = UsersEntity.of(usersEntities);
 
-        return readDetails;
+        return readUserInfos;
     }
 
     /**

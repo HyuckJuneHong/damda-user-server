@@ -1,8 +1,8 @@
 package kr.co.damdauser.jpa;
 
-import kr.co.dto.RequestUserDto;
-import kr.co.dto.ResponseOrderDto;
-import kr.co.dto.ResponseUserDto;
+import kr.co.damdauser.dto.RequestDto;
+import kr.co.damdauser.dto.ResponseDto;
+import kr.co.damdauser.dto.client.ResponseClientDto;
 import kr.co.enums.UserRole;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -54,7 +54,7 @@ public class UsersEntity {
         this.userRole = userRole;
     }
 
-    public static UsersEntity of(RequestUserDto.CREATE_USER create,
+    public static UsersEntity of(RequestDto.CREATE_USER create,
                                  PasswordEncoder passwordEncoder){
         return UsersEntity.builder()
                 .identity(create.getIdentity())
@@ -65,22 +65,23 @@ public class UsersEntity {
                 .build();
     }
 
-    public static ResponseUserDto.READ_USER_DETAIL of(UsersEntity usersEntity,
-                                                 List<ResponseOrderDto.READ_ORDER_INFO> readOrders){
-        return ResponseUserDto.READ_USER_DETAIL.builder()
+    public static ResponseDto.READ_USER_INFO of(UsersEntity usersEntity,
+                                                List<ResponseClientDto.READ_ORDER_INFO> readOrderInfos){
+        return ResponseDto.READ_USER_INFO.builder()
                 .name(usersEntity.name)
                 .email(usersEntity.email)
-                .readOrders(readOrders)
+                .readOrders(readOrderInfos)
                 .build();
     }
 
-    public static List<ResponseUserDto.READ_USER_DETAIL> of(List<UsersEntity> usersEntities){
-        List<ResponseUserDto.READ_USER_DETAIL> readDetails = new ArrayList<>();
+    public static List<ResponseDto.READ_USER_INFO> of(List<UsersEntity> usersEntities){
+        List<ResponseDto.READ_USER_INFO> readUserInfos = new ArrayList<>();
+
         for(UsersEntity usersEntity : usersEntities){
-            List<ResponseOrderDto.READ_ORDER_INFO> readOrders = new ArrayList<>();
-            readDetails.add(UsersEntity.of(usersEntity, readOrders));
+            List<ResponseClientDto.READ_ORDER_INFO> readOrderInfos = new ArrayList<>();
+            readUserInfos.add(UsersEntity.of(usersEntity, readOrderInfos));
         }
 
-        return readDetails;
+        return readUserInfos;
     }
 }
