@@ -13,7 +13,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
                 if(methodKey.contains("findOrderInfosByIdentity")){
                     return FeignClientException.builder()
                             .status(404)
-                            .message("해당 아이디로 주문 정보를 불러올 수 없습니다.")
+                            .message("주문 정보 조회 API를 불러올 수 없습니다.")
                             .methodName("findOrderInfosByIdentity")
                             .build();
                 }
