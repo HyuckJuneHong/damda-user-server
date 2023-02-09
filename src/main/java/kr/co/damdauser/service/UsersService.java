@@ -11,10 +11,13 @@ import kr.co.error.exception.BadRequestException;
 import kr.co.error.exception.BusinessLogicException;
 import kr.co.error.exception.DuplicatedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +29,7 @@ public class UsersService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final OrderServiceClient orderServiceClient;
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
     /**
      * user create service
@@ -65,7 +69,7 @@ public class UsersService {
      */
     public ResponseDto.READ_USER_INFO getUserInfoByIdentity(String identity){
         final UsersEntity usersEntity = findUserByIdentity(identity);
-        final List<ResponseClientDto.READ_ORDER_INFO> readOrderInfos = orderServiceClient.findOrderInfosByIdentity(identity);
+        final List<ResponseClientDto.READ_ORDER_INFO> readOrderInfos = getOrderInfosByIdentity(identity);
         final ResponseDto.READ_USER_INFO readUserInfo = UsersEntity.of(usersEntity, readOrderInfos);
 
         return readUserInfo;
@@ -80,6 +84,23 @@ public class UsersService {
         final List<ResponseDto.READ_USER_INFO> readUserInfos = UsersEntity.of(usersEntities);
 
         return readUserInfos;
+    }
+
+    /**
+     * find order by identity
+     * @param identity : user identity
+     * @return readOrderInfos
+     */
+    private List<ResponseClientDto.READ_ORDER_INFO> getOrderInfosByIdentity(String identity){
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitBreaker");
+        return circuitBreaker.run(() -> orderServiceClient.findOrderInfosByIdentity(identity),
+                throwable -> (new ArrayList<>(List.of(ResponseClientDto.READ_ORDER_INFO.builder()
+                        .orderCode("주문정보를 불러올 수 없습니다.")
+                        .amount(0)
+                        .price(0)
+                        .productCode("상품코드를 불러올 수 없습니다.")
+                        .totalPrice(0)
+                        .build()))));
     }
 
     /**
