@@ -11,6 +11,7 @@ import kr.co.error.exception.BadRequestException;
 import kr.co.error.exception.BusinessLogicException;
 import kr.co.error.exception.DuplicatedException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UsersService {
@@ -69,8 +71,11 @@ public class UsersService {
      */
     public ResponseDto.READ_USER_INFO getUserInfoByIdentity(String identity){
         final UsersEntity usersEntity = findUserByIdentity(identity);
+
+        log.info("Before call orders microservice");
         final List<ResponseClientDto.READ_ORDER_INFO> readOrderInfos = getOrderInfosByIdentity(identity);
         final ResponseDto.READ_USER_INFO readUserInfo = UsersEntity.of(usersEntity, readOrderInfos);
+        log.info("After called orders microservice");
 
         return readUserInfo;
     }

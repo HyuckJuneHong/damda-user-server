@@ -68,6 +68,12 @@ dependencies {
 
     //CircuitBreaker Resilience4j
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-circuitbreaker-resilience4j'
+
+    //zipkin
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin'
+
+    //sleuth
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
 }
 
 dependencyManagement {
