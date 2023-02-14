@@ -3,7 +3,7 @@ package kr.co.damdauser.config;
 import feign.Logger;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
-import kr.co.damdauser.handler.client.FeignErrorDecoder;
+import kr.co.damdauser.error.handler.client.FeignErrorDecoder;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.Customizer;

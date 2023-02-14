@@ -3,7 +3,7 @@ package kr.co.damdauser.jpa;
 import kr.co.damdauser.dto.RequestDto;
 import kr.co.damdauser.dto.ResponseDto;
 import kr.co.damdauser.dto.client.ResponseClientDto;
-import kr.co.enums.UserRole;
+import kr.co.damdauser.jpa.enums.UserRole;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

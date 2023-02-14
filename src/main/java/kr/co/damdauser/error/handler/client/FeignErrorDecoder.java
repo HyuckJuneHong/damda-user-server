@@ -1,8 +1,8 @@
-package kr.co.damdauser.handler.client;
+package kr.co.damdauser.error.handler.client;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import kr.co.error.exception.FeignClientException;
+import kr.co.damdauser.error.exception.FeignClientException;
 
 public class FeignErrorDecoder implements ErrorDecoder {
 

@@ -29,8 +29,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    implementation project(':damda-core')
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
 
     //JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -70,7 +70,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-circuitbreaker-resilience4j'
 
     //zipkin
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin', version: '2.2.8.RELEASE'
 
     //sleuth
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'
