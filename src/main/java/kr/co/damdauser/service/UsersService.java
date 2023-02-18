@@ -98,6 +98,7 @@ public class UsersService {
      */
     private List<ResponseClientDto.READ_ORDER_INFO> getOrderInfosByIdentity(String identity){
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitBreaker");
+
         return circuitBreaker.run(() -> orderServiceClient.findOrderInfosByIdentity(identity),
                 throwable -> (new ArrayList<>(List.of(ResponseClientDto.READ_ORDER_INFO.builder()
                         .orderCode("주문정보를 불러올 수 없습니다.")

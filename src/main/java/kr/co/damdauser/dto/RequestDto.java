@@ -26,4 +26,12 @@ public class RequestDto {
 
         private String password;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class DELETE_USER{
+        private String identity;
+
+        private String password;
+    }
 }
