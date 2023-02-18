@@ -33,7 +33,7 @@ public class SwaggerConfig {
                 .title(API_NAME)
                 .version(API_VERSION)
                 .description(API_DESCRIPTION)
-                .contact(new Contact("Popool", "https://github.com/HyuckjuneHong", "jjj8337721@naver.com"))
+                .contact(new Contact("DAMDA", "https://github.com/HyuckjuneHong", "jjj8337721@naver.com"))
                 .build();
     }
 }

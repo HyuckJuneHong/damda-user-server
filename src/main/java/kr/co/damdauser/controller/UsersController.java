@@ -4,18 +4,18 @@ import io.swagger.annotations.ApiOperation;
 import kr.co.damdauser.dto.RequestDto;
 import kr.co.damdauser.dto.ResponseDto;
 import kr.co.damdauser.error.model.ResponseFormat;
-import kr.co.damdauser.service.UsersService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
+import kr.co.damdauser.service.UsersService;
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/users")
 @Slf4j
+@RequiredArgsConstructor
 public class UsersController {
 
     private final UsersService usersService;
